@@ -35,3 +35,8 @@ Generate Spotify playlists from Liked Songs and generating playlists by Genre (P
 -- Collaboration / Features - Multiple Artists, Conflicting Genres, etc.
 -- Regional Availability (Shouldn't be too much of a concern)
 
+# App Configuration:
+-- Setup environmental variables in root dir within .env
+-- NOTE: Ensure .env is added to .gitignore
+-- `pip freeze > requirements.txt` -- Create a `requirements.txt` file with all current packages
+-- `pip install -r requirements.txt` -- Install all packages listed in `requirements.txt`
