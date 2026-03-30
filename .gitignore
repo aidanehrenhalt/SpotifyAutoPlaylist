@@ -1,0 +1,12 @@
+# --- Pytest Cache ---
+.pytest_cache/
+__pycache__/
+.coverage
+dist/
+.spc/
+
+# --- Environmental Variables / Virtual Environment ---
+.env
+.env.*
+.env/
+.venv/

@@ -1,37 +1,47 @@
-# SpotifyAutoPlaylist
-Generate Spotify playlists from Liked Songs and generating playlists by Genre (Possibility of extending the functionalities further at a later date)
+# Spotify CLI Curation Tool
 
-## Inputs & Scope
--- Input Format:
---- Genres: CSV, JSON, txt?
---- Pull songs from Liked Songs via Spotify API, filter into Playlist(s)
---- Maybe add a list feature where you can make a playlist from a list of songs provided Title + Artists is contained.
+CLI-first scaffolding for building curated Spotify playlists from genre and audio-profile inputs.
 
-## Stack
--- Spotipy or Spotify Web API Node (Node.js)
--- Store secrets local in .env
+The repository now follows the architecture in [docs/spotify-cli-roadmap.md](docs/spotify-cli-roadmap.md):
 
-## Register a Spotify App & Spotify Auth
--- via Spotify Dashboard
--- Figure out Auth Flow
--- Token Storage / Refresh Token Handling
+- `src/spc/cli.py`: command entrypoint
+- `src/spc/config.py`: app config, auth storage, run artifact paths
+- `src/spc/spotify/client.py`: Spotify client contracts and local scaffold
+- `src/spc/sources/`: catalog source adapters
+- `src/spc/genre_intelligence/`: genre profile building
+- `src/spc/curation/`: ranking and pipeline logic
+- `tests/spc/`: CLI and domain tests
 
-## Handling Data from Spotify API
--- Search API if implementing list of songs (instead of pulling from Liked Songs)
+Project history is tracked in [CHANGELOG.md](CHANGELOG.md).
 
-## Fetch Metadata to Assist with Genres
--- Ensure limit rates are respected (batch requests)
+## Current Status
 
-## Genre Mapping Strategy
--- TBD
+Implemented:
 
-## Playlist Naming Scheme
--- TBD
+- CLI package scaffold with `auth`, `curate`, and `explain` commands
+- Typed domain models for requests, tracks, scores, and run artifacts
+- Local token storage with strict file permissions
+- Spotify-only scaffold source backed by a deterministic demo catalog
+- Dry-run curation pipeline with explainability artifacts in `./.spc/runs/`
+- Baseline docs for architecture and genre-source research
 
-## API Limitations
--- TBD - Need to Research
+Not implemented yet:
 
-## Edge Cases
--- Collaboration / Features - Multiple Artists, Conflicting Genres, etc.
--- Regional Availability (Shouldn't be too much of a concern)
+- Real Spotify OAuth PKCE flow
+- Real Spotify Web API integration
+- Real Last.fm enrichment requests
+- Retry/backoff and fixture-based API contract tests
 
+## Usage
+
+Create a virtual environment, install the package, and run:
+
+```bash
+python3 -m pip install -e .
+spc auth login --user-id alice --display-name "Alice Example" --access-token demo-token
+spc auth whoami
+spc curate --genre shoegaze --size 5 --dry-run
+spc explain --run-id <run-id>
+```
+
+Use `SPC_HOME` to override the local app directory if needed.
